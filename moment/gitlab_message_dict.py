@@ -16,13 +16,25 @@ def get_dingtalk_data(request_json):
             }
         }
     elif request_json['object_kind'] == 'note':
+
+        title = request_json['object_attributes']['note']
+
+        user = request_json['user']
+        project = request_json['project']
+        issue = request_json.get('issue')
+        assignee = request_json.get('assignee', {}).get('name', '')
+
         data = {
-            "msgtype": "link",
-            "link": {
-                "title": f"{request_json['user']['name']} 评论了{request_json['project']['name']}",
-                "text": request_json['object_attributes']['note'],
-                "picUrl": request_json['user']['avatar_url'],
-                "messageUrl": request_json['object_attributes']['url']
+            "msgtype": "markdown",
+            "markdown": {
+                "title": title,
+                "text": f"""{user['name']}：**{title}**
+>  [{issue['title']}]({request_json['object_attributes']['url']})
+> {issue['description']}
+
+> ----
+
+> ######  [@{project['name']}]({project['web_url']}) Assignee: **{assignee}** State: {issue['state']}"""
             }
         }
     elif request_json['object_kind'] == 'issue' and request_json['object_attributes']['action'] == 'open':
