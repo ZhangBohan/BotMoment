@@ -21,7 +21,7 @@ async def post(url, json_data):
 async def test(request):
     access_token = request.args.get('access_token')
     request_data = request.json
-    print(f'request: {request.body}')
+    print(f'request: {request.body.decode()}')
     url = f'https://oapi.dingtalk.com/robot/send?access_token={access_token}'
     data = get_dingtalk_data(request_data)
 
