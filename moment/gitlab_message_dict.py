@@ -52,15 +52,15 @@ def get_dingtalk_data(request_json):
         if request_json['object_attributes']['action'] == 'open':
             title = f"{request_json['user']['name']} 打开了一个新问题"
             state = 'open'
-            title = request_json['object_attributes']['title']
+            issue_title = request_json['object_attributes']['title']
         else:
             title = f"{request_json['user']['name']} 更新了问题"
             state = issue['state']
-            title = issue['title']
+            issue_title = issue['title']
 
         text = f"""{user['name']}：**{title}**
->  [{title}]({request_json['object_attributes']['url']})
-> {issue.get('description')}
+>  [{issue_title}]({request_json['object_attributes']['url']})
+> {issue.get('description', '')}
 
 > ----
 
