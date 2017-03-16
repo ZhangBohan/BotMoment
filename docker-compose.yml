@@ -8,4 +8,4 @@ services:
      volumes:
       - .:/code
      ports:
-      - "8002:8000"
+      - "9002:8000"
