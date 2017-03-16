@@ -6,8 +6,9 @@ def get_dingtalk_data(request_json):
 
     if request_json['object_kind'] == 'push':
         project = request_json['project']
+        title = f"{request_json['user_name']} 推送了{request_json['total_commits_count']}个提交。"
 
-        text = f"{request_json['user_name']} 推送了{request_json['total_commits_count']}个提交。"
+        text = title
 
         for commit in request_json['commits']:
             text += f"\n\n> [{commit['message']}]({commit['url']})"
@@ -17,7 +18,7 @@ def get_dingtalk_data(request_json):
         data = {
             "msgtype": "markdown",
             "markdown": {
-                "title": "xxx",
+                "title": title,
                 "text": text
             }
         }
@@ -29,11 +30,12 @@ def get_dingtalk_data(request_json):
         project = request_json['project']
         issue = request_json.get('issue')
         assignee = request_json.get('assignee', {}).get('name', '')
+        assignee = assignee if f'**{assignee}**' else ''
 
         data = {
             "msgtype": "markdown",
             "markdown": {
-                "title": "xxx",
+                "title": title,
                 "text": f"""{user['name']}：**{title}**
 >  [{issue['title']}]({request_json['object_attributes']['url']})
 > {issue['description']}
@@ -48,6 +50,7 @@ def get_dingtalk_data(request_json):
         project = request_json['project']
         issue = request_json.get('issue', {})
         assignee = request_json.get('assignee', {}).get('name', '')
+        assignee = assignee if f'**{assignee}**' else ''
 
         if request_json['object_attributes']['action'] == 'open':
             title = f"{request_json['user']['name']} 打开了一个新问题"
@@ -69,7 +72,7 @@ def get_dingtalk_data(request_json):
         data = {
             "msgtype": "markdown",
             "markdown": {
-                "title": "xxx",
+                "title": title,
                 "text": text
             }
         }
