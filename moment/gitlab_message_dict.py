@@ -34,5 +34,15 @@ def get_dingtalk_data(request_json):
                 "messageUrl": request_json['object_attributes']['url']
             }
         }
+    elif request_json['object_kind'] == 'issue':
+        data = {
+            "msgtype": "link",
+            "link": {
+                "title": f"{request_json['user']['name']} 更新了问题",
+                "text": request_json['object_attributes']['title'],
+                "picUrl": request_json['user']['avatar_url'],
+                "messageUrl": request_json['object_attributes']['url']
+            }
+        }
 
     return data
