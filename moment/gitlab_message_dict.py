@@ -1,3 +1,4 @@
+import json
 
 
 def get_dingtalk_data(request_json):
@@ -44,5 +45,7 @@ def get_dingtalk_data(request_json):
                 "messageUrl": request_json['object_attributes']['url']
             }
         }
+    else:
+        print(json.dumps(request_json, ensure_ascii=False, indent=4))
 
     return data
