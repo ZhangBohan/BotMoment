@@ -5,14 +5,20 @@ def get_dingtalk_data(request_json):
     print(f"type: {request_json['object_kind']}")
 
     if request_json['object_kind'] == 'push':
-        commit = request_json['commits'][0]
+        project = request_json['project']
+
+        text = f"{request_json['user_name']} 推送了{request_json['total_commits_count']}个提交。"
+
+        for commit in request_json['commits']:
+            text += f"\n\n> [{commit['message']}]({commit['url']})"
+
+        text += f"\n\n[@{project['name']}]({project['web_url']})"
+
         data = {
-            "msgtype": "link",
-            "link": {
-                "title": f"{request_json['user_name']} 推送了{len(request_json['commits'])}个提交。",
-                "text": commit['message'],
-                "picUrl": request_json['user_avatar'],
-                "messageUrl": commit['url']
+            "msgtype": "markdown",
+            "markdown": {
+                "title": "xxx",
+                "text": text
             }
         }
     elif request_json['object_kind'] == 'note':
@@ -27,7 +33,7 @@ def get_dingtalk_data(request_json):
         data = {
             "msgtype": "markdown",
             "markdown": {
-                "title": title,
+                "title": "xxx",
                 "text": f"""{user['name']}：**{title}**
 >  [{issue['title']}]({request_json['object_attributes']['url']})
 > {issue['description']}
