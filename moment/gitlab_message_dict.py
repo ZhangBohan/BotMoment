@@ -39,9 +39,6 @@ def get_dingtalk_data(request_json):
                 "text": f"""{user['name']}：**{title}**
 >  [{issue['title']}]({request_json['object_attributes']['url']})
 > {issue['description']}
-
-> ----
-
 > ######  [@{project['name']}]({project['web_url']}) Assignee: **{assignee}** State: {issue['state']}"""
             }
         }
@@ -64,9 +61,6 @@ def get_dingtalk_data(request_json):
         text = f"""{user['name']}：**{title}**
 >  [{issue_title}]({request_json['object_attributes']['url']})
 > {issue.get('description', '')}
-
-> ----
-
 > ######  [@{project['name']}]({project['web_url']}) Assignee: **{assignee}** State: {state}"""
 
         data = {
