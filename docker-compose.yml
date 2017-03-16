@@ -4,7 +4,7 @@ services:
   # Web Server
   web:
      build: .
-     command: python main.py
+     command: python server.py
      volumes:
       - .:/code
      ports:
